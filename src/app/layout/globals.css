@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Akronim&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  --color-main: #067fd0;
+  --color-main-light: #3c99d8;
+  --color-main-dark: #04609d;
+
+  --color-light: #fdfeff;
+  --color-dark: #111;
+
+  --color-grey-1: #333;
+  --color-grey-2: #999;
+  --color-grey-3: #ccc;
+  --color-grey-4: #eee;
+  --color-grey-5: #fcfcfc;
+}
+
+* {
+  font-weight: 300;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.logo-font {
+  font-family: 'Akronim', system-ui;
+}
+
+.transitioning {
+  transition: all 0.5s ease-in-out;
+}
