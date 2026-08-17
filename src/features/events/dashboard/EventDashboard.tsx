@@ -1,5 +1,5 @@
-import EventForm from "../form/EventForm";
-import EventCard from "./EventCard";
+import EventForm from '../form/EventForm'
+import EventCard from './EventCard'
 
 export default function EventDashboard() {
   return (
