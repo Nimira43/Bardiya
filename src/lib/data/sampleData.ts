@@ -5,7 +5,7 @@ export const users : AppUser[] = [
     uid: 'bob-id',
     displayName: 'Bob',
     email: 'bob@test.com',
-    photoURL: 'https://randomuser.me/api/portraits/men/11.jpg'
+    photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
   },
   {
     uid: 'tom-id',
@@ -14,16 +14,16 @@ export const users : AppUser[] = [
     photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
   },
   {
-    uid: 'jane-id',
-    displayName: 'Jane',
-    email: 'jane@test.com',
+    uid: 'nikki-id',
+    displayName: 'Nikki',
+    email: 'nikki@test.com',
     photoURL: 'https://randomuser.me/api/portraits/women/19.jpg'
   },
   {
     uid: 'kate-id',
     displayName: 'Kate',
     email: 'kate@test.com',
-    photoURL: 'https://randomuser.me/api/portraits/women/32.jpg'
+    photoURL: 'https://randomuser.me/api/portraits/women/33.jpg'
   },
   {
     uid: 'mike-id',
@@ -44,10 +44,11 @@ export const users : AppUser[] = [
     photoURL: 'https://randomuser.me/api/portraits/men/66.jpg'
   },
   {
+
     uid: 'olivia-id',
     displayName: 'Olivia',
     email: 'olivia@test.com',
-    photoURL: 'https://randomuser.me/api/portraits/women/77.jpg'
+    photoURL: 'https://randomuser.me/api/portraits/women/75.jpg'
   }
 ]
 

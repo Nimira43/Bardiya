@@ -1,13 +1,22 @@
-export default function EventAttendees() {
+import type { Attendee } from '../../../lib/types'
+
+type Props = {
+  attendees: Attendee[]
+}
+
+export default function EventAttendees({ attendees }: Props ) {
   return (
     <div className='avatar-group -space-x-5'>
-      {Array.from({ length: 5 }).map((_, index) => (
+      {attendees.map((attendee) => (
         <div
           className='avatar'
-          key={index}
+          key={attendee.id}
         >
           <div className='w-12'>
-            <img src='/images/user.jpg' alt='attendee image' />
+            <img
+              src={attendee.photoURL || '/images/user.jpg'}
+              alt='attendee image'
+            />
           </div>
         </div>
       ))}
