@@ -1,4 +1,8 @@
-export default function EventForm() {
+type Props = {
+  setFormOpen: (isOpen: boolean) => void
+}
+  
+export default function EventForm({setFormOpen}: Props) {
   return (
     <div className='card bg-base-100 p-4 flewx flex-col gap-3 w-full'>
       <h3 className='text-2xl font-medium text-center text-primary'>
@@ -38,6 +42,7 @@ export default function EventForm() {
           <button
             type='button'
             className='btn btn-neutral'
+            onClick={() => setFormOpen(false)}
           >
             Cancel
           </button>
