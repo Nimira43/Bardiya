@@ -3,37 +3,51 @@ type Props = {
 }
   
 export default function EventForm({setFormOpen}: Props) {
+  const onSubmit = (formData: FormData) => {
+    const data = Object.fromEntries(formData.entries())
+    console.log(data)
+  }
+  
   return (
     <div className='card bg-base-100 p-4 flewx flex-col gap-3 w-full'>
       <h3 className='text-2xl font-medium text-center text-primary'>
         Create New Event
       </h3>
-      <form className='flex flex-col gap-3 w-full'>
+      <form
+        action={onSubmit}
+        className='flex flex-col gap-3 w-full'
+      >
         <input
+          name='title'
           type='text'
           className='input input-lg w-full'
           placeholder='Event Title'
         />
         <input
+          name='category'
           type='text'
           className='input input-lg w-full'
           placeholder='Category'
         />
         <textarea
+          name='description'
           className='textarea textarea-lg w-full'
           placeholder='Description'
         />
         <input
-          type='text'
+          name='date'
+          type='datetime-local'
           className='input input-lg w-full'
           placeholder='Date'
         />
         <input
+          name='city'
           type='text'
           className='input input-lg w-full'
           placeholder='City'
         />
         <input
+          name='venue'
           type='text'
           className='input input-lg w-full'
           placeholder='Venue'
