@@ -13,6 +13,10 @@ type Props = {
 export default function EventDashboard({ formOpen, setFormOpen }: Props) {
   const [appEvents, setAppEvents] = useState<AppEvent[]>([])
 
+  const handleCreateEvent = (event: AppEvent) => {
+    setAppEvents(prevState => [...prevState, event])
+  }
+
   useEffect(() => {
     setAppEvents(events)
 
@@ -51,7 +55,10 @@ export default function EventDashboard({ formOpen, setFormOpen }: Props) {
               exit={{ opacity: 0, x: 200 }}
               transition={{ duration: 0.3, type: 'tween'}}
             >
-              <EventForm setFormOpen={setFormOpen} />
+              <EventForm
+                setFormOpen={setFormOpen}
+                createEvent={handleCreateEvent}
+              />
             </motion.div>
           )}
         </AnimatePresence>
