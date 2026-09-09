@@ -12,9 +12,15 @@ type Props = {
 
 export default function EventDashboard({ formOpen, setFormOpen }: Props) {
   const [appEvents, setAppEvents] = useState<AppEvent[]>([])
+  const [selectedEvent, setSelectedEvent] = useState<AppEvent | null>(null)
 
   const handleCreateEvent = (event: AppEvent) => {
     setAppEvents(prevState => [...prevState, event])
+  }
+
+  const handleSelectEvent = (event: AppEvent) => {
+    setSelectedEvent(event)
+    setFormOpen(true)
   }
 
   useEffect(() => {
@@ -38,8 +44,9 @@ export default function EventDashboard({ formOpen, setFormOpen }: Props) {
             <div className='flex flex-col gap-4'>
               {appEvents.map((event) => (
                 <EventCard
-                key={event.id}
-                event={event}
+                  selectEvent={handleSelectEvent}
+                  key={event.id}
+                  event={event}
                 />
               ))}
             </div>
@@ -58,6 +65,7 @@ export default function EventDashboard({ formOpen, setFormOpen }: Props) {
               <EventForm
                 setFormOpen={setFormOpen}
                 createEvent={handleCreateEvent}
+                selectedEvent={selectedEvent}
               />
             </motion.div>
           )}
