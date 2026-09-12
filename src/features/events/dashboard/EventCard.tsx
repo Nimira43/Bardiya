@@ -3,12 +3,12 @@ import EventAttendees from './EventAttendees'
 
 type Props = {
   event: AppEvent
-  selectEvent: (event: AppEvent) => void
+  formToggle: (event: AppEvent) => void
 }
 
 export default function EventCard({
   event,
-  selectEvent
+  formToggle
 }: Props) {
   const host = event.attendees.find(x => x.id === event.hostUid)
 
@@ -42,7 +42,7 @@ export default function EventCard({
             {event.description}
           </div>
           <button
-            onClick={() => selectEvent(event)}
+            onClick={() => formToggle(event)}
             className='btn btn-primary'
           >
             View

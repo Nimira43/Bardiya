@@ -41,7 +41,7 @@ export default function EventForm({
   return (
     <div className='card bg-base-100 p-4 flewx flex-col gap-3 w-full'>
       <h3 className='text-2xl font-medium text-center text-primary'>
-        Create New Event
+        {selectedEvent ? 'Edit Event' : 'Create Event'}
       </h3>
       <form
         action={onSubmit}
