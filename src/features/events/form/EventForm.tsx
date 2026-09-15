@@ -5,12 +5,14 @@ type Props = {
   setFormOpen: (isOpen: boolean) => void
   createEvent: (event: AppEvent) => void
   selectedEvent: AppEvent | null
+  updateEvent: (event: AppEvent) => void
 }
   
 export default function EventForm({
   setFormOpen,
   createEvent,
-  selectedEvent
+  selectedEvent,
+  updateEvent
 }: Props) {
   const initialValues = selectedEvent ?? {
     title: '',
@@ -24,18 +26,24 @@ export default function EventForm({
   const onSubmit = (formData: FormData) => {
     const data = Object.fromEntries(formData.entries()) as unknown as AppEvent
 
-    createEvent({
-      ...data,
-      id: crypto.randomUUID(),
-      hostUid: users[0].uid,
-      attendees: [{
-        id: users[0].uid,
-        displayName: users[0].displayName,
-        photoURL: users[0].photoURL,
-        isHost: true
-      }]
-    })
-    setFormOpen(false)
+    if (selectedEvent) {
+      updateEvent({ ...selectedEvent, ...data })
+      setFormOpen(false)
+      return
+    } else {      
+      createEvent({
+        ...data,
+        id: crypto.randomUUID(),
+        hostUid: users[0].uid,
+        attendees: [{
+          id: users[0].uid,
+          displayName: users[0].displayName,
+          photoURL: users[0].photoURL,
+          isHost: true
+        }]
+      })
+      setFormOpen(false)
+    }
   }
   
   return (

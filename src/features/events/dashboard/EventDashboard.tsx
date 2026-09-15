@@ -24,6 +24,15 @@ export default function EventDashboard({
     setAppEvents(prevState => [...prevState, event])
   }
 
+  const handleUpdateEvent = (updatedEvent: AppEvent) => {
+    setAppEvents(prevState => {
+      return prevState.map(e => e.id === updatedEvent.id
+        ? updatedEvent
+        : e
+      )
+    })
+  }
+
   useEffect(() => {
     setAppEvents(events)
 
@@ -68,6 +77,7 @@ export default function EventDashboard({
                 setFormOpen={setFormOpen}
                 createEvent={handleCreateEvent}
                 selectedEvent={selectedEvent}
+                updateEvent={handleUpdateEvent}
               />
             </motion.div>
           )}
