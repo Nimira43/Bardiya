@@ -33,6 +33,10 @@ export default function EventDashboard({
     })
   }
 
+  const handleDeleteEvent = (eventId: string) => {
+    setAppEvents(prevState => prevState.filter(e => e.id !== eventId))
+  }
+
   useEffect(() => {
     setAppEvents(events)
 
@@ -55,6 +59,7 @@ export default function EventDashboard({
               {appEvents.map((event) => (
                 <EventCard
                   formToggle={formToggle}
+                  deleteEvent={handleDeleteEvent}
                   key={event.id}
                   event={event}
                 />
