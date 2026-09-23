@@ -4,6 +4,7 @@ import EventForm from '../form/EventForm'
 import EventCard from './EventCard'
 import type { AppEvent } from '../../../lib/types'
 import { AnimatePresence, motion } from 'motion/react'
+import Counter from '../../counter/Counter'
 
 type Props = {
   formOpen: boolean
@@ -69,8 +70,8 @@ export default function EventDashboard({
         </AnimatePresence>
       </div>
       <div className='w-2/5 overflow-hidden'>
-        <AnimatePresence>
-          {formOpen && (
+        <AnimatePresence mode='wait'>
+          {formOpen ? (
             <motion.div
               initial={{ opacity: 0, x: 200 }}
               animate={{ opacity: 1, x: 0 }}
@@ -84,6 +85,16 @@ export default function EventDashboard({
                 selectedEvent={selectedEvent}
                 updateEvent={handleUpdateEvent}
               />
+            </motion.div>
+          ) : (
+            <motion.div
+              key='counter'    
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 200 }}
+              transition={{ duration: 0.3, type: 'tween'}}
+            >
+              <Counter />
             </motion.div>
           )}
         </AnimatePresence>
