@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { events } from '../../../lib/data/sampleData'
 import EventForm from '../form/EventForm'
 import EventCard from './EventCard'
 import type { AppEvent } from '../../../lib/types'
 import { AnimatePresence, motion } from 'motion/react'
 import Counter from '../../counter/Counter'
+import { useAppDispatch, useAppSelector } from '../../../lib/stores/store'
+import { setEvents } from '../eventSlice'
 
 type Props = {
   formOpen: boolean
@@ -19,32 +21,12 @@ export default function EventDashboard({
   formToggle,
   selectedEvent
 }: Props) {
-  const [appEvents, setAppEvents] = useState<AppEvent[]>([])
-
-  const handleCreateEvent = (event: AppEvent) => {
-    setAppEvents(prevState => [...prevState, event])
-  }
-
-  const handleUpdateEvent = (updatedEvent: AppEvent) => {
-    setAppEvents(prevState => {
-      return prevState.map(e => e.id === updatedEvent.id
-        ? updatedEvent
-        : e
-      )
-    })
-  }
-
-  const handleDeleteEvent = (eventId: string) => {
-    setAppEvents(prevState => prevState.filter(e => e.id !== eventId))
-  }
+  const dispatch = useAppDispatch()
+  const appEvents = useAppSelector(state => state.event.events)
 
   useEffect(() => {
-    setAppEvents(events)
-
-    return () => {
-      setAppEvents([])
-    }
-  }, [])
+    dispatch(setEvents(events))
+  }, [dispatch])
 
   return (
     <div className='flex flex-row w-full gap-6'>
@@ -60,7 +42,6 @@ export default function EventDashboard({
               {appEvents.map((event) => (
                 <EventCard
                   formToggle={formToggle}
-                  deleteEvent={handleDeleteEvent}
                   key={event.id}
                   event={event}
                 />
@@ -81,9 +62,7 @@ export default function EventDashboard({
               <EventForm
                 key={selectedEvent?.id || 'new'}
                 setFormOpen={setFormOpen}
-                createEvent={handleCreateEvent}
                 selectedEvent={selectedEvent}
-                updateEvent={handleUpdateEvent}
               />
             </motion.div>
           ) : (

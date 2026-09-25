@@ -1,19 +1,18 @@
 import { users } from '../../../lib/data/sampleData'
+import { useAppDispatch } from '../../../lib/stores/store'
 import type { AppEvent } from '../../../lib/types'
+import { createEvent, updateEvent } from '../eventSlice'
 
 type Props = {
   setFormOpen: (isOpen: boolean) => void
-  createEvent: (event: AppEvent) => void
   selectedEvent: AppEvent | null
-  updateEvent: (event: AppEvent) => void
 }
   
 export default function EventForm({
   setFormOpen,
-  createEvent,
   selectedEvent,
-  updateEvent
 }: Props) {
+  const dispatch = useAppDispatch()
   const initialValues = selectedEvent ?? {
     title: '',
     category: '',
@@ -27,11 +26,11 @@ export default function EventForm({
     const data = Object.fromEntries(formData.entries()) as unknown as AppEvent
 
     if (selectedEvent) {
-      updateEvent({ ...selectedEvent, ...data })
+      dispatch(updateEvent({ ...selectedEvent, ...data }))
       setFormOpen(false)
       return
     } else {      
-      createEvent({
+      dispatch(createEvent({
         ...data,
         id: crypto.randomUUID(),
         hostUid: users[0].uid,
@@ -41,7 +40,7 @@ export default function EventForm({
           photoURL: users[0].photoURL,
           isHost: true
         }]
-      })
+      }))
       setFormOpen(false)
     }
   }
