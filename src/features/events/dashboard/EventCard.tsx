@@ -1,17 +1,13 @@
 import { useAppDispatch } from '../../../lib/stores/store'
 import type { AppEvent } from '../../../lib/types'
-import { deleteEvent } from '../eventSlice'
+import { deleteEvent, toggleForm } from '../eventSlice'
 import EventAttendees from './EventAttendees'
 
 type Props = {
   event: AppEvent
-  formToggle: (event: AppEvent) => void
 }
 
-export default function EventCard({
-  event,
-  formToggle,
-}: Props) {
+export default function EventCard({ event }: Props) {
   const host = event.attendees.find(x => x.id === event.hostUid)
   const dispatch = useAppDispatch()
 
@@ -36,8 +32,7 @@ export default function EventCard({
         </div>
 
         <div className='bg-base-200 -mx-6 my-3 px-4 py-2 border-y border-neutral/20'>
-          <EventAttendees attendees={event.attendees}
-          />
+          <EventAttendees attendees={event.attendees} />
         </div>
         
         <div className='card-actions flex'>
@@ -45,21 +40,21 @@ export default function EventCard({
             {event.description}
           </div>
           <div className='flex gap-3'>
-          <button
-            onClick={() => dispatch(deleteEvent(event.id))}
-            className='btn btn-error'
+            <button
+              onClick={() => dispatch(deleteEvent(event.id))}
+              className='btn btn-error'
             >
-            Delete
-          </button>
-          <button
-            onClick={() => formToggle(event)}
-            className='btn btn-primary'
+              Delete
+            </button>
+            <button
+              onClick={() => dispatch(toggleForm(event))}
+              className='btn btn-primary'
             >
-            View
-          </button>
-            </div>
+              View
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
