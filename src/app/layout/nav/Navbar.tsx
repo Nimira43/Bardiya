@@ -1,8 +1,12 @@
 import { NavLink } from 'react-router'
 import UserMenu from './UserMenu'
+import { useAppDispatch, useAppSelector } from '../../../lib/stores/store'
+import { signIn } from '../../../features/account/accountSlice'
 
 export default function Navbar() {
-  const loggedIn = true
+  const user = useAppSelector(state => state.account.user)
+  const dispatch = useAppDispatch()
+  
   return (
     <header className='p-3 w-full fixed top-0 z-50 bg-primary'>
       <div className='flex align-middle items-center px-10 mx-auto gap-6'>
@@ -29,11 +33,14 @@ export default function Navbar() {
           </NavLink>
         </nav>
         <div className='flex align-middle ml-auto gap-3'>
-          {loggedIn ? (
+          {user ? (
             <UserMenu />
           ) : (
             <>
-              <button className='btn'>
+              <button
+                className='btn'
+                onClick={() => dispatch(signIn())}
+              >
                 Login
               </button>
               <button className='btn'>

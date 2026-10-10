@@ -1,8 +1,12 @@
 import { RiLogoutBoxRLine } from 'react-icons/ri'
-import { users } from '../../../lib/data/sampleData'
 import { PiCalendarBlank, PiUser } from 'react-icons/pi'
+import { useAppDispatch, useAppSelector } from '../../../lib/stores/store'
+import { signOut } from '../../../features/account/accountSlice'
 
 export default function UserMenu() {
+  const user = useAppSelector(state => state.account.user)
+  const dispatch = useAppDispatch()
+  
   return (
     <div className='dropdown dropdown-bottom dropdown-end'>
       <div
@@ -13,12 +17,14 @@ export default function UserMenu() {
         <div className='avatar'>
           <div className='w-11 rounded-full'>
             <img
-              src={users[2].photoURL}
+              src={user?.photoURL ||  '/images/user.jpg'}
               alt="User avatar"
             />
           </div>
         </div>
-        <span>Amanda</span>
+        <span>
+          {user?.displayName}
+        </span>
       </div>
       <ul
         tabIndex={0}
@@ -37,7 +43,7 @@ export default function UserMenu() {
           </div>
         </li>
         <div className='divider my-0' />
-        <li>
+        <li onClick={() => dispatch(signOut())}>
           <div className='flex items-center gap-3'>
             <RiLogoutBoxRLine className='size-6' />
             Logout
