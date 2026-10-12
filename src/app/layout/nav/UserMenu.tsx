@@ -2,11 +2,18 @@ import { RiLogoutBoxRLine } from 'react-icons/ri'
 import { PiCalendarBlank, PiUser } from 'react-icons/pi'
 import { useAppDispatch, useAppSelector } from '../../../lib/stores/store'
 import { signOut } from '../../../features/account/accountSlice'
+import { useNavigate } from 'react-router'
 
 export default function UserMenu() {
+  const navigate = useNavigate()
   const user = useAppSelector(state => state.account.user)
   const dispatch = useAppDispatch()
-  
+    
+  const handleSignOut = () => {
+    dispatch(signOut())
+    navigate('/')
+  }
+
   return (
     <div className='dropdown dropdown-bottom dropdown-end'>
       <div
@@ -43,7 +50,7 @@ export default function UserMenu() {
           </div>
         </li>
         <div className='divider my-0' />
-        <li onClick={() => dispatch(signOut())}>
+        <li onClick={handleSignOut}>
           <div className='flex items-center gap-3'>
             <RiLogoutBoxRLine className='size-6' />
             Logout

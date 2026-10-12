@@ -41,7 +41,7 @@ export default function EventForm() {
   
   return (
     <div className='card bg-base-100 p-4 flex flex-col gap-3 w-full'>
-      <h3 className='text-2xl font-medium text-center text-primary'>
+      <h3 className='text-2xl font-medium text-center text-accent'>
         {selectedEvent ? 'Edit Event' : 'Create Event'}
       </h3>
       <form

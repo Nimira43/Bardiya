@@ -9,7 +9,7 @@ export default function Counter() {
     <div className='card bg-base-100 shadow flex flex-col gap-4'>
       <div className='stats text-center'>
         <div className='stat'>
-          <div className='stat-title text-3xl logo-font mb-1'>
+          <div className='stat-title text-3xl mb-1 text-accent'>
             Bardiya Counter
           </div>
           <div className='state-value text-7xl'>
