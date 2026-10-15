@@ -27,6 +27,7 @@ export default function Navbar() {
         <nav className='flex gap-3 my-2 text-lg text-white'>
           <NavLink
             to='/events'
+            end
             className='cursor-pointer'
           >
             Events
