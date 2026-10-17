@@ -1,7 +1,7 @@
 export default function EventDetailedHeader() {
   return (
     <div className='card bg-base-100'>
-      <figure className='h-64 brightness-50'>
+      <figure className='h-64 brightness-50 rounded'>
         <img
           src={`/images/categoryImages/drinks.jpg`}
           alt='Event category image'
