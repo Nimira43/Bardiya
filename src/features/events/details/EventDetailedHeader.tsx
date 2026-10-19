@@ -1,4 +1,7 @@
+import { useAppSelector } from '../../../lib/stores/store'
+
 export default function EventDetailedHeader() {
+  const event = useAppSelector(state => state.event.selectedEvent)
   return (
     <div className='card bg-base-100'>
       <figure className='h-64 brightness-50 rounded'>
@@ -12,7 +15,7 @@ export default function EventDetailedHeader() {
         <div className='flex justify-between'>
           <div>
             <h2 className='card-title text-4xl'>
-              Event Title
+              {event?.title}
             </h2>
             <p>Event Date</p>
             <p>Hosted by Bob</p>

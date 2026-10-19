@@ -1,7 +1,7 @@
 import { users } from '../../../lib/data/sampleData'
 import { useAppDispatch, useAppSelector } from '../../../lib/stores/store'
 import type { AppEvent } from '../../../lib/types'
-import { closeForm, createEvent, updateEvent } from '../eventSlice'
+import { createEvent, updateEvent } from '../eventSlice'
 
 export default function EventForm() {
   const dispatch = useAppDispatch()
@@ -21,7 +21,6 @@ export default function EventForm() {
 
     if (selectedEvent) {
       dispatch(updateEvent({ ...selectedEvent, ...data }))
-      dispatch(closeForm())
       return
     } else {      
       dispatch(createEvent({
@@ -35,7 +34,6 @@ export default function EventForm() {
           isHost: true
         }]
       }))
-      dispatch(closeForm())
     }
   }
   
@@ -97,7 +95,6 @@ export default function EventForm() {
           <button
             type='button'
             className='btn btn-neutral'
-            onClick={() => dispatch(closeForm())}
           >
             Cancel
           </button>

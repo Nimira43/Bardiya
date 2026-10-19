@@ -1,4 +1,4 @@
-import { users } from "../../../lib/data/sampleData";
+import { users } from '../../../lib/data/sampleData'
 
 export default function EventDetailedSidebar() {
   return (
