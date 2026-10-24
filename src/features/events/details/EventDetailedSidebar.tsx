@@ -1,24 +1,46 @@
-import { users } from '../../../lib/data/sampleData'
+import { Fragment } from 'react/jsx-runtime'
+import { useAppSelector } from '../../../lib/stores/store'
 
 export default function EventDetailedSidebar() {
+const event = useAppSelector(state => state.event.selectedEvent)
+
   return (
     <div className='card bg-base-100'>
       <div className='card-title rounded-t justify-center bg-primary py-2 text-white'>
-        3 People going
+        {event?.attendees.length} people going
       </div>
       <div className='card-body'>
         <div className='flex flex-col gap-3'>
-          <div className='flex gap-3 align-middle items-center'>
-            <div className='avatar'>
-              <div className='w-16 rounded'>
-                <img
-                  src={users[0].photoURL}
-                  alt='User'
-                />
+          
+          {event?.attendees.map((attendee, index) => (
+            <Fragment key={attendee.id}>
+              <div className='flex gap-3 align-middle justify-between items-center'>
+                <div className='flex gap-3 items-center'>
+
+                <div className='avatar'>
+                  <div className='w-16 rounded'>
+                    <img
+                      src={attendee?.photoURL || '/user.png'}
+                      alt='User'
+                      />
+                  </div>
+                </div>
+                <span className='text-2xl'>
+                  {attendee.displayName}
+                </span>
+                </div>
+                {event.hostUid === attendee.id && (
+                  <div className='badge badge-info'>
+                    Host
+                  </div>
+                )}
               </div>
-            </div>
-            <div className='text-2xl'>Bob</div>
-          </div>
+              {index < event.attendees.length - 1 && (
+                <div className='divider my-0'></div>
+              )}
+            </Fragment>
+          ))}
+
         </div>
       </div>
     </div>
