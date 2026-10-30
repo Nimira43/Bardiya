@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { useAppSelector } from '../../../lib/stores/store'
 
 export default function EventDetailedHeader() {
@@ -26,9 +27,17 @@ export default function EventDetailedHeader() {
             <p>Hosted by {host?.displayName}</p>
           </div>
           <div className='flex flex-col justify-end'>
-            <button className='btn btn-primary'>
-              Join Event
-            </button>  
+            <div className='flex gap-3'>
+              <Link
+                to={`/manage/${event?.id}`}
+                className='btn btn-accent'
+              >
+                Manage Event
+              </Link>
+              <button className='btn btn-primary'>
+                Join Event
+              </button>  
+            </div>
           </div>
         </div>
       </div>

@@ -1,11 +1,16 @@
+import { useNavigate, useParams } from 'react-router'
 import { users } from '../../../lib/data/sampleData'
 import { useAppDispatch, useAppSelector } from '../../../lib/stores/store'
 import type { AppEvent } from '../../../lib/types'
-import { createEvent, updateEvent } from '../eventSlice'
+import { createEvent, selectEvent, updateEvent } from '../eventSlice'
+import { useEffect, useRef } from 'react'
 
 export default function EventForm() {
+  const navigate = useNavigate()
+  const{ id } = useParams<{id: string}>()
   const dispatch = useAppDispatch()
   const selectedEvent = useAppSelector(state => state.event.selectedEvent)
+  const formRef = useRef<HTMLFormElement>(null)
   
   const initialValues = selectedEvent ?? {
     title: '',
@@ -15,17 +20,28 @@ export default function EventForm() {
     city: '',
     venue: ''
   }
+
+  useEffect(() => {
+    if (id) {
+      dispatch(selectEvent(id))
+    } else {
+      dispatch(selectEvent(null))
+      formRef.current?.reset()
+    }
+  }, [dispatch, id])
   
   const onSubmit = (formData: FormData) => {
     const data = Object.fromEntries(formData.entries()) as unknown as AppEvent
 
     if (selectedEvent) {
       dispatch(updateEvent({ ...selectedEvent, ...data }))
+      navigate(`/events/${selectedEvent.id}`)
       return
     } else {      
+      const id = crypto.randomUUID()
       dispatch(createEvent({
         ...data,
-        id: crypto.randomUUID(),
+        id,
         hostUid: users[0].uid,
         attendees: [{
           id: users[0].uid,
@@ -34,6 +50,7 @@ export default function EventForm() {
           isHost: true
         }]
       }))
+      navigate(`/events/${id}`)
     }
   }
   
@@ -43,6 +60,7 @@ export default function EventForm() {
         {selectedEvent ? 'Edit Event' : 'Create Event'}
       </h3>
       <form
+        ref={formRef}
         action={onSubmit}
         className='flex flex-col gap-3 w-full'
       >
@@ -95,6 +113,7 @@ export default function EventForm() {
           <button
             type='button'
             className='btn btn-neutral'
+            onClick={() => navigate(-1)}
           >
             Cancel
           </button>
