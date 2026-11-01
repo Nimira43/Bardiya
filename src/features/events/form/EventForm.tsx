@@ -3,43 +3,50 @@ import { users } from '../../../lib/data/sampleData'
 import { useAppDispatch, useAppSelector } from '../../../lib/stores/store'
 import type { AppEvent } from '../../../lib/types'
 import { createEvent, selectEvent, updateEvent } from '../eventSlice'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
+import { useForm, type FieldValues } from 'react-hook-form'
 
 export default function EventForm() {
   const navigate = useNavigate()
   const{ id } = useParams<{id: string}>()
   const dispatch = useAppDispatch()
   const selectedEvent = useAppSelector(state => state.event.selectedEvent)
-  const formRef = useRef<HTMLFormElement>(null)
   
-  const initialValues = selectedEvent ?? {
-    title: '',
-    category: '',
-    description: '',
-    date: '',
-    city: '',
-    venue: ''
-  }
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      title: '',
+      category: '',
+      description: '',
+      date: '',
+      city: '',
+      venue: ''
+    }
+  })
 
   useEffect(() => {
     if (id) {
       dispatch(selectEvent(id))
+
+      if (selectedEvent) {
+        reset({
+          ...selectEvent,
+          date: new Date(selectedEvent.date).toISOString().slice(0, 16)
+        })
+      }
     } else {
       dispatch(selectEvent(null))
-      formRef.current?.reset()
     }
-  }, [dispatch, id])
+  }, [dispatch, id, selectedEvent, reset])
   
-  const onSubmit = (formData: FormData) => {
-    const data = Object.fromEntries(formData.entries()) as unknown as AppEvent
-
+  const onSubmit = (data: FieldValues) => {
     if (selectedEvent) {
       dispatch(updateEvent({ ...selectedEvent, ...data }))
       navigate(`/events/${selectedEvent.id}`)
       return
     } else {      
       const id = crypto.randomUUID()
-      dispatch(createEvent({
+      
+      const newEvent = {
         ...data,
         id,
         hostUid: users[0].uid,
@@ -49,7 +56,9 @@ export default function EventForm() {
           photoURL: users[0].photoURL,
           isHost: true
         }]
-      }))
+      }
+      
+      dispatch(createEvent(newEvent as AppEvent))
       navigate(`/events/${id}`)
     }
   }
@@ -60,51 +69,40 @@ export default function EventForm() {
         {selectedEvent ? 'Edit Event' : 'Create Event'}
       </h3>
       <form
-        ref={formRef}
-        action={onSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className='flex flex-col gap-3 w-full'
       >
         <input
-          defaultValue={initialValues.title}
-          name='title'
+          {...register('title')}
           type='text'
           className='input input-lg w-full'
           placeholder='Event Title'
         />
         <input
-          defaultValue={initialValues.category}
-          name='category'
+          {...register('category')}
           type='text'
           className='input input-lg w-full'
           placeholder='Category'
         />
         <textarea
-          defaultValue={initialValues.description}
-          name='description'
+          {...register('description')}
           className='textarea textarea-lg w-full'
           placeholder='Description'
         />
         <input
-          defaultValue={
-            initialValues.date
-              ? new Date(initialValues.date).toISOString().slice(0, 16)
-              : ''
-          }
-          name='date'
+          {...register('date')}
           type='datetime-local'
           className='input input-lg w-full'
           placeholder='Date'
         />
         <input
-          defaultValue={initialValues.city}
-          name='city'
+          {...register('city')}
           type='text'
           className='input input-lg w-full'
           placeholder='City'
         />
         <input
-          defaultValue={initialValues.venue}
-          name='venue'
+          {...register('venue')}
           type='text'
           className='input input-lg w-full'
           placeholder='Venue'
