@@ -5,6 +5,7 @@ import type { AppEvent } from '../../../lib/types'
 import { createEvent, selectEvent, updateEvent } from '../eventSlice'
 import { useEffect } from 'react'
 import { useForm, type FieldValues } from 'react-hook-form'
+import UncontrolledInput from '../../../app/shared/components/UncontrolledInput'
 
 export default function EventForm() {
   const navigate = useNavigate()
@@ -38,7 +39,7 @@ export default function EventForm() {
 
       if (selectedEvent) {
         reset({
-          ...selectEvent,
+          ...selectedEvent,
           date: new Date(selectedEvent.date).toISOString().slice(0, 16)
         })
       }
@@ -81,23 +82,14 @@ export default function EventForm() {
         onSubmit={handleSubmit(onSubmit)}
         className='flex flex-col gap-3 w-full'
       >
-        <input
-          {...register('title', {required: 'Title is required'})}
-          type='text'
-          className={`
-            input input-lg w-full
-            ${errors.title
-              ? 'input-error'
-              : ''
-            }
-          `}
-          placeholder='Event Title'
-        />
-        {errors.title && (
-          <div className='text-error text-sm'>
-            {errors.title.message}
-          </div>
-        )}
+        <UncontrolledInput
+          register={register}
+          name='title'
+          errors={errors}
+          options={{ required: 'Title is required.' }}
+          label='Title'
+
+        />  
         <input
           {...register('category')}
           type='text'
