@@ -5,7 +5,8 @@ import type { AppEvent } from '../../../lib/types'
 import { createEvent, selectEvent, updateEvent } from '../eventSlice'
 import { useEffect } from 'react'
 import { useForm, type FieldValues } from 'react-hook-form'
-import UncontrolledInput from '../../../app/shared/components/UncontrolledInput'
+import TextInput from '../../../app/shared/components/TextInput'
+
 
 export default function EventForm() {
   const navigate = useNavigate()
@@ -15,12 +16,10 @@ export default function EventForm() {
   
   const {
     register,
+    control,
     handleSubmit,
     reset,
-    formState: {
-      errors,
-      isValid
-    }  
+    formState: {isValid}  
   } = useForm({
     mode: 'onTouched',
     defaultValues: {
@@ -82,14 +81,12 @@ export default function EventForm() {
         onSubmit={handleSubmit(onSubmit)}
         className='flex flex-col gap-3 w-full'
       >
-        <UncontrolledInput
-          register={register}
+        <TextInput
+          control={control}
           name='title'
-          errors={errors}
-          options={{ required: 'Title is required.' }}
           label='Title'
-
-        />  
+          rules={{required: 'Title is required.'}}
+        />
         <input
           {...register('category')}
           type='text'
