@@ -6,7 +6,8 @@ import { createEvent, selectEvent, updateEvent } from '../eventSlice'
 import { useEffect } from 'react'
 import { useForm, type FieldValues } from 'react-hook-form'
 import TextInput from '../../../app/shared/components/TextInput'
-
+import { eventFormSchema, type EventFormSchema } from '../../../lib/schemas/EventFormSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export default function EventForm() {
   const navigate = useNavigate()
@@ -20,8 +21,9 @@ export default function EventForm() {
     handleSubmit,
     reset,
     formState: {isValid}  
-  } = useForm({
+  } = useForm<EventFormSchema>({
     mode: 'onTouched',
+    resolver: zodResolver(eventFormSchema),
     defaultValues: {
       title: '',
       category: '',
@@ -85,36 +87,32 @@ export default function EventForm() {
           control={control}
           name='title'
           label='Title'
-          rules={{required: 'Title is required.'}}
         />
-        <input
-          {...register('category')}
-          type='text'
-          className='input input-lg w-full'
-          placeholder='Category'
+        <TextInput
+          control={control}
+          name='category'
+          label='Category'
         />
-        <textarea
-          {...register('description')}
-          className='textarea textarea-lg w-full'
-          placeholder='Description'
+        <TextInput
+          control={control}
+          name='description'
+          label='Description'
         />
-        <input
-          {...register('date')}
+        <TextInput
+          control={control}
+          name='date'
+          label='Date'
           type='datetime-local'
-          className='input input-lg w-full'
-          placeholder='Date'
         />
-        <input
-          {...register('city')}
-          type='text'
-          className='input input-lg w-full'
-          placeholder='City'
+        <TextInput
+          control={control}
+          name='city'
+          label='City'
         />
-        <input
-          {...register('venue')}
-          type='text'
-          className='input input-lg w-full'
-          placeholder='Venue'
+        <TextInput
+          control={control}
+          name='venue'
+          label='Venue '
         />
         <div className='flex justify-end w-full gap-3'>
           <button
